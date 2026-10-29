@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voz Aberta · Escola de Comunicação (protótipo para Isabelle)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F6FF;--ink:#12143A;--mute:#5B5F8A;--card:#fff;--line:#DCE0F6;--pri:#3342E6;--onpri:#fff;--acc:#FFC93C;--ok:#12a36b;--navy:#0E1240;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0E2A;--ink:#EEF0FF;--mute:#A4A9D8;--card:#161941;--line:#2A2E63;--pri:#8591FF;--onpri:#0C0E2A}}
+:root[data-theme="dark"]{--bg:#0C0E2A;--ink:#EEF0FF;--mute:#A4A9D8;--card:#161941;--line:#2A2E63;--pri:#8591FF;--onpri:#0C0E2A}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+h1,h2,h3,.big,.brand{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.08;margin:0 0 .5em}
+h1{font-size:clamp(30px,5vw,52px);font-weight:800}h2{font-size:clamp(24px,3.4vw,34px);font-weight:800}h3{font-size:20px;font-weight:600}
+.m{color:var(--mute);font-size:14px;margin:.2em 0 .6em}
+a{color:var(--pri)}
+button,input,select{font:inherit;color:inherit}
+.btn{border:0;border-radius:99px;padding:12px 22px;font-weight:600;font-size:15px;background:var(--pri);color:var(--onpri);cursor:pointer;display:inline-block;text-decoration:none;margin:4px 6px 4px 0}
+.btn.g{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.y{background:var(--acc);color:#1a1500}.btn.wa{background:#25D366;color:#06301a}
+.btn:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.top{background:var(--navy);color:#fff;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 40px;padding:16px 20px;text-align:center}
+.tx b{display:block;font:800 clamp(24px,3.6vw,36px)/1.1 "Bricolage Grotesque",system-ui,sans-serif}
+.tx span{font-size:15px;opacity:.9}.tx em{font-style:normal;color:var(--acc);font-weight:600}
+.scene{display:block;position:relative;width:370px;height:110px;perspective:800px;text-decoration:none;color:#fff;flex:none}
+.ring{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;animation:spin 8s linear infinite}
+.ring i{position:absolute;left:-17px;top:-17px;width:34px;height:34px;border-radius:50%;background:#25D366;display:grid;place-items:center;transform:rotateY(calc(var(--i)*36deg)) translateZ(172px);box-shadow:0 0 16px #25D366aa}
+.ring svg,.num svg{width:20px;height:20px;fill:#fff}
+.num{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:10px;animation:sw 5s ease-in-out infinite;font:800 clamp(26px,5vw,36px) "Bricolage Grotesque",system-ui,sans-serif;text-shadow:0 0 20px #25D366,0 2px 0 #128C7E,0 4px 0 #0b6b5c,0 7px 10px #0007;white-space:nowrap}
+.num svg{width:36px;height:36px;fill:#25D366;filter:drop-shadow(0 3px 0 #0b6b5c)}
+@keyframes spin{from{transform:rotateX(-16deg) rotateY(0)}to{transform:rotateX(-16deg) rotateY(360deg)}}
+@keyframes sw{0%,100%{transform:rotateY(-14deg)}50%{transform:rotateY(14deg)}}
+@media(max-width:480px){.scene{transform:scale(.86);margin:-8px -26px}}
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 20px}
+.brand{font-size:22px;font-weight:800;background:none;border:0;cursor:pointer;display:flex;align-items:center;gap:8px;margin:0;white-space:nowrap}
+.brand svg{width:30px;height:30px}
+nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav button{background:none;border:0;padding:8px 12px;border-radius:99px;font-weight:600;font-size:14px;color:var(--mute);cursor:pointer;white-space:nowrap}
+nav .on{background:var(--pri);color:var(--onpri)}
+.av{width:38px;height:38px;border-radius:50%;border:0;background:var(--acc);color:#1a1500;font-weight:800;cursor:pointer;flex:none}
+main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}
+.hero{background:var(--pri);color:var(--onpri);border-radius:28px;padding:clamp(26px,6vw,64px);margin-bottom:44px}
+.hero h1{font-size:clamp(34px,6.4vw,72px);max-width:15ch;line-height:1}.hero p{max-width:46ch;font-size:18px}
+.chip{background:none;border:0;box-shadow:inset 0 0 0 1.5px currentColor;color:inherit;border-radius:99px;padding:7px 15px;margin:4px 6px 4px 0;cursor:pointer;font-weight:600;font-size:14px}
+.chip.on{background:var(--acc);color:#1a1500;box-shadow:none}
+.g3{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}.cb{padding:18px}
+.th{height:140px;padding:14px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(circle at 85% 15%,#ffffff40,transparent 45%),linear-gradient(135deg,hsl(var(--h) 75% 38%),hsl(calc(var(--h) + 50) 80% 56%))}
+.th span{font-size:13px;opacity:.9}.th b{font:800 20px/1.1 "Bricolage Grotesque",system-ui,sans-serif}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:2px 11px;font-size:13px;font-weight:600}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;flex:1;margin:8px 0}.bar i{display:block;height:100%;background:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+.plan.best{border:2px solid var(--pri)}.plan ul{padding-left:18px;margin:8px 0 14px;font-size:15px}
+.big{font-size:34px;font-weight:800}
+.vid{aspect-ratio:16/9;border-radius:18px;background:linear-gradient(135deg,#0E1240,hsl(var(--h) 60% 30%));position:relative;color:#fff;display:grid;place-items:center;overflow:hidden}
+.vt{position:absolute;left:16px;top:12px}.vt span{font-size:13px;opacity:.8;display:block}.vt b{font:800 22px "Bricolage Grotesque",system-ui,sans-serif}
+.pl{width:72px;height:72px;border-radius:50%;border:0;background:var(--acc);color:#1a1500;font-size:24px;cursor:pointer;z-index:2}
+.wave{position:absolute;bottom:0;left:0;right:0;height:42%;display:flex;align-items:flex-end;gap:3px;padding:0 10px}
+.wave i{flex:1;background:#ffffff2e;height:18%}.playing .wave i{animation:b .8s ease-in-out infinite alternate}
+@keyframes b{to{height:95%}}
+.ctl{display:flex;align-items:center;gap:12px;margin:10px 0}
+.ls button{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;cursor:pointer;font-size:14px}
+.ls button:hover,.ls .cur{background:var(--bg)}.ls h4{margin:14px 0 4px;font-size:14px}
+details{border-bottom:1px solid var(--line);padding:10px 0}summary{font-weight:600;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+.stat{flex:1;min-width:160px}.stat .big{margin:0}
+.tabs{display:flex;gap:6px;margin:0 0 14px}.tabs button{flex:1;padding:9px;border-radius:12px;border:1.5px solid var(--line);background:none;cursor:pointer;font-weight:600}.tabs .on{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+input,select{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);margin:4px 0 10px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ov{position:fixed;inset:0;background:#0009;display:none;place-items:center;z-index:70;padding:16px}.ov.on{display:grid}
+.mdl{background:var(--card);border-radius:22px;max-width:440px;width:100%;max-height:90vh;overflow:auto;padding:24px;position:relative}
+.x{position:absolute;right:12px;top:8px;background:none;border:0;font-size:28px;cursor:pointer}
+.qr{text-align:center;color:var(--ink);padding:8px 0}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:92vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.empty{text-align:center;padding:40px 20px}
+footer{background:var(--navy);color:#fff;text-align:center;padding:34px 20px 40px}footer .m{color:#b9bde8}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol></svg>
+<div class="top" id="top"></div>
+<header class="hd"><button class="brand" data-a="go" data-v="home"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="10" fill="var(--pri)"/><path d="M8 10h16v9H15l-5 4v-4H8z" fill="var(--onpri)"/></svg>Voz Aberta</button><nav id="nav"></nav><span id="usr"></span></header>
+<main id="app"></main>
+<footer id="foot"></footer>
+<div class="ov" id="mo"></div><div id="toast" role="status"></div>
+<script>
+const E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),$=s=>document.querySelector(s);
+const WA='https://wa.me/5519982480386?text='+encodeURIComponent('Olá Heitor! Vi o protótipo da plataforma e gostaria de conversar.');
+const PN=['','Essencial','Pro','Premium'];
+const PLANS=[{id:1,p:29,f:['Cursos do nível Essencial','Materiais em PDF','Progresso e trilhas']},{id:2,p:59,f:['Tudo do Essencial','Cursos Pro','Workshops ao vivo e gravações']},{id:3,p:99,f:['Tudo do Pro','Todos os cursos','Vagas e oportunidades exclusivas']}];
+const AREAS=['Jornalismo','Publicidade','Audiovisual','Redes Sociais','Assessoria'];
+const MODS={Jornalismo:['Apuração e fontes','Texto jornalístico','Ética e checagem'],Publicidade:['Briefing e público','Criação e conceito','Medição de resultado'],Audiovisual:['Roteiro e ritmo','Captação','Pós-produção'],'Redes Sociais':['Estratégia de conteúdo','Formatos e linguagem','Métricas e rotina'],Assessoria:['Relação com a imprensa','Comunicação interna','Gestão de crise']};
+const LT=['Visão geral','Na prática','Estudo de caso'],MIN=[8,12,15];
+let COURSES=[
+{id:1,t:'Reportagem na prática',a:'Jornalismo',l:1,h:'Marina Alves',d:'6h',p:149,c:230},
+{id:2,t:'Checagem e combate à desinformação',a:'Jornalismo',l:2,h:'Marina Alves',d:'5h',p:179,c:200},
+{id:3,t:'Redação publicitária que vende',a:'Publicidade',l:1,h:'Paula Nogueira',d:'7h',p:159,c:330},
+{id:4,t:'Branding e posicionamento de marca',a:'Publicidade',l:3,h:'Paula Nogueira',d:'9h',p:249,c:290},
+{id:5,t:'Roteiro para vídeo curto',a:'Audiovisual',l:2,h:'Caio Bernardes',d:'5h',p:169,c:20},
+{id:6,t:'Edição e narrativa visual',a:'Audiovisual',l:3,h:'Caio Bernardes',d:'8h',p:229,c:350},
+{id:7,t:'Estratégia de conteúdo para redes',a:'Redes Sociais',l:1,h:'Letícia Prado',d:'6h',p:149,c:160},
+{id:8,t:'Social media com dados',a:'Redes Sociais',l:2,h:'Letícia Prado',d:'6h',p:189,c:180},
+{id:9,t:'Assessoria de imprensa moderna',a:'Assessoria',l:1,h:'Renato Pires',d:'5h',p:139,c:260},
+{id:10,t:'Gestão de crise e reputação',a:'Assessoria',l:3,h:'Renato Pires',d:'7h',p:239,c:0}];
+const TR=[{t:'Repórter digital',d:'Da apuração à checagem, para quem quer produzir notícia com credibilidade.',cs:[1,2,9]},{t:'Criador de conteúdo',d:'Estratégia, roteiro e análise de dados para crescer nas redes.',cs:[7,5,8]},{t:'Estrategista de marca',d:'Texto, posicionamento e proteção da reputação da marca.',cs:[3,4,10]}];
+const WS=[{id:1,t:'Entrevista que rende pauta',h:'Marina Alves',d:'12 nov, 19h',v:40},{id:2,t:'Roteiros para Reels e Shorts',h:'Caio Bernardes',d:'19 nov, 20h',v:25},{id:3,t:'Pitch de marca em 5 minutos',h:'Paula Nogueira',d:'26 nov, 19h30',v:30},{id:4,t:'Clipping e relatório de imprensa',h:'Renato Pires',d:'3 dez, 18h',v:20}];
+const EV=[{id:1,t:'Encontro de Comunicação 2026',d:'14 nov',l:'São Paulo, presencial'},{id:2,t:'Webinar: IA na redação',d:'21 nov',l:'Online'},{id:3,t:'Feira de Marcas e Mídia',d:'5 dez',l:'Campinas, presencial'}];
+const JOBS=[{id:1,t:'Analista de Comunicação',c:'Studio Norte',l:'Campinas, híbrido',k:'CLT'},{id:2,t:'Social media júnior',c:'Agência Pulso',l:'Remoto',k:'PJ'},{id:3,t:'Assessor(a) de imprensa',c:'Instituto Alvorada',l:'São Paulo',k:'CLT'},{id:4,t:'Editor(a) de vídeo',c:'Cena Filmes',l:'Remoto',k:'Freelancer'}];
+let U=[{n:'Camila Torres',e:'camila@email.com',p:3},{n:'Rafael Dias',e:'rafael@email.com',p:2},{n:'Júlia Mendes',e:'julia@email.com',p:1},{n:'Bruno Lacerda',e:'bruno@email.com',p:0},{n:'Fernanda Rocha',e:'fer@email.com',p:2}];
+const S={view:'home',user:null,plan:0,owned:new Set(),done:new Set(),tr:new Set(),ws:new Set(),ev:new Set(),jb:new Set(),f:'Todos',q:'',at:'c',et:'e',am:'in',pct:0,on:false};
+let T;
+const cs=id=>COURSES.find(c=>c.id==id),les=c=>MODS[c.a].map((m,i)=>({m,ls:LT.map((t,j)=>({k:c.id+'.'+i+'.'+j,t,min:MIN[j]}))})),flat=c=>les(c).flatMap(x=>x.ls);
+const can=c=>S.plan>=c.l||S.owned.has(c.id),canL=(c,k)=>can(c)||k==c.id+'.0.0',prog=c=>Math.round(flat(c).filter(l=>S.done.has(l.k)).length/9*100);
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+const WV=Array.from({length:40},()=>`<i style="animation-delay:-${(Math.random()*.8).toFixed(2)}s"></i>`).join('');
+const bar=p=>`<div class="bar"><i style="width:${p}%"></i></div>`;
+const wa=()=>`<a class="scene" href="${WA}" target="_blank" rel="noopener" aria-label="Chamar Heitor no WhatsApp (19) 98248-0386"><div class="ring">${Array.from({length:10},(_,i)=>`<i style="--i:${i}"><svg><use href="#wa"/></svg></i>`).join('')}</div><div class="num"><svg><use href="#wa"/></svg><span>(19) 98248-0386</span></div></a>`;
+$('#top').innerHTML=`<div class="tx"><b>Entre em contato com o Heitor</b><span>Protótipo desenvolvido especialmente para <em>Isabelle</em></span></div>${wa()}<a class="btn wa" href="${WA}" target="_blank" rel="noopener">Chamar no WhatsApp</a>`;
+$('#foot').innerHTML=`<h2>Gostou do protótipo? Vamos conversar.</h2>${wa()}<p><a class="btn wa" href="${WA}" target="_blank" rel="noopener">Falar com o Heitor agora</a></p><p class="m">Protótipo desenvolvido especialmente para Isabelle, por Heitor Serra Neto. Todos os dados e pagamentos são simulados.</p>`;
+const card=c=>{const p=prog(c);return `<article class="card"><div class="th" style="--h:${c.c}"><span>${E(c.a)}</span><b>${E(c.t)}</b></div><div class="cb"><p class="m">${E(c.h)}, ${c.d} de conteúdo</p><div class="row"><span class="tag">${can(c)?'Liberado':'Plano '+PN[c.l]}</span><span class="m">ou R$ ${c.p}</span></div>${p?bar(p):''}<button class="btn" data-a="curso" data-v="${c.id}">Ver curso</button></div></article>`};
+const plans=()=>`<div class="g3">${PLANS.map(p=>`<div class="card cb plan ${p.id==2?'best':''}"><h3>${PN[p.id]}</h3>${p.id==2?'<span class="tag">Mais escolhido</span>':''}<p class="big">R$ ${p.p}<small class="m">/mês</small></p><ul>${p.f.map(f=>`<li>${f}</li>`).join('')}</ul><button class="btn" ${S.plan==p.id?'disabled':''} data-a="sub" data-v="${p.id}">${S.plan==p.id?'Seu plano atual':'Assinar '+PN[p.id]}</button></div>`).join('')}</div>`;
+const empty=(t,p,b,a)=>`<div class="card cb empty"><h2>${t}</h2><p class="m">${p}</p><button class="btn" data-a="${a}">${b}</button></div>`;
+const grid=()=>{const l=COURSES.filter(c=>(S.f=='Todos'||c.a==S.f)&&c.t.toLowerCase().includes(S.q.toLowerCase()));return l.length?l.map(card).join(''):'<p class="m">Nenhum curso encontrado. Tente outro termo ou área.</p>'};
+const V={
+home:()=>`<section class="hero"><h1>Aprenda comunicação com quem vive dela.</h1><p>Cursos em vídeo, trilhas, workshops ao vivo e vagas do mercado em uma assinatura só.</p><button class="btn y" data-a="go" data-v="cursos">Ver cursos</button><button class="btn g" style="color:inherit;box-shadow:inset 0 0 0 1.5px currentColor" data-a="plans">Ver planos</button><p style="margin-top:22px;font-size:15px">Escolha uma área:</p>${AREAS.map(a=>`<button class="chip" data-a="area" data-v="${a}">${a}</button>`).join('')}</section><h2>Cursos em destaque</h2><div class="g3">${[1,3,5,7].map(i=>card(cs(i))).join('')}</div><h2 id="planos">Escolha seu plano</h2><p class="m">Cancele quando quiser. Upgrade e downgrade valem já no próximo ciclo.</p>${plans()}`,
+cursos:()=>`<h1>Catálogo de cursos</h1><input id="q" placeholder="Buscar curso" value="${E(S.q)}" aria-label="Buscar curso">${['Todos',...AREAS].map(a=>`<button class="chip ${S.f==a?'on':''}" style="color:var(--ink)" data-a="area" data-v="${a}">${a}</button>`).join('')}<div class="g3" id="grid" style="margin-top:18px">${grid()}</div>`,
+curso:()=>{const c=cs(S.cur),p=prog(c),f=flat(c).find(l=>!S.done.has(l.k))||flat(c)[0];return `<div class="th" style="--h:${c.c};height:200px;border-radius:22px;margin-bottom:22px"><span>${E(c.a)}</span><b style="font-size:clamp(26px,4vw,42px)">${E(c.t)}</b></div><div class="two"><div><p>Aprenda com ${E(c.h)} em 3 módulos e 9 aulas, com videoaulas e materiais em PDF para praticar. A primeira aula é aberta para todos.</p>${les(c).map((m,i)=>`<details ${i==0?'open':''}><summary>Módulo ${i+1}: ${m.m}</summary><div class="ls">${m.ls.map(l=>`<button data-a="play" data-v="${c.id}|${l.k}"><span>${S.done.has(l.k)?'✓ ':''}${l.t}</span><span class="m">${canL(c,l.k)?l.min+' min':'🔒'}</span></button>`).join('')}</div></details>`).join('')}</div><aside class="card cb"><span class="tag">Plano ${PN[c.l]} ou superior</span><p class="big" style="margin-top:10px">R$ ${c.p}</p><p class="m">compra avulsa, acesso vitalício</p>${can(c)?`${p?bar(p):''}<button class="btn" data-a="play" data-v="${c.id}|${f.k}">${p?'Continuar curso':'Começar agora'}</button>`:`<button class="btn" data-a="buy" data-v="${c.id}">Comprar curso</button><button class="btn g" data-a="sub" data-v="${c.l}">Assinar ${PN[c.l]}</button><button class="btn g" data-a="play" data-v="${c.id}|${c.id}.0.0">Ver aula grátis</button>`}</aside></div>`},
+player:()=>{const c=cs(S.cur),L=flat(c),l=L.find(x=>x.k==S.les),i=L.indexOf(l);return `<p class="m"><a href="#" data-a="curso" data-v="${c.id}">${E(c.t)}</a></p><div class="two"><div><div class="vid" id="vid" style="--h:${c.c}"><div class="vt"><span>${E(c.a)}</span><b>${l.t}</b></div><button class="pl" id="pb" data-a="tp" aria-label="Reproduzir ou pausar">▶</button><div class="wave">${WV}</div></div><div class="ctl"><div class="bar"><i id="pg" style="width:${S.done.has(l.k)?100:0}%"></i></div><span class="m" id="tm" style="margin:0">0:00 / ${l.min}:00</span></div><p class="m">Simulação acelerada: cada aula “passa” em 12 segundos.</p><h2>${l.t}</h2><button class="btn g" ${i?'':'disabled'} data-a="nav" data-v="-1">Aula anterior</button><button class="btn ${S.done.has(l.k)?'g':''}" data-a="done">${S.done.has(l.k)?'Aula concluída ✓':'Concluir aula'}</button><button class="btn g" ${i<8?'':'disabled'} data-a="nav" data-v="1">Próxima aula</button><div class="card cb" style="margin-top:14px"><b>Materiais da aula</b><p class="m">Slides e exercícios em PDF.</p><button class="btn g" data-a="pdf">Baixar PDF</button></div></div><aside class="card cb ls"><b>${prog(c)}% concluído</b>${bar(prog(c))}${les(c).map((m,n)=>`<h4>Módulo ${n+1}: ${m.m}</h4>${m.ls.map(x=>`<button class="${x.k==S.les?'cur':''}" data-a="play" data-v="${c.id}|${x.k}"><span>${S.done.has(x.k)?'✓ ':''}${x.t}</span><span class="m">${canL(c,x.k)?x.min+' min':'🔒'}</span></button>`).join('')}`).join('')}</aside></div>`},
+trilhas:()=>`<h1>Trilhas de aprendizagem</h1><p class="m">Sequências de cursos para chegar a um objetivo. Siga uma trilha e acompanhe o progresso.</p><div class="g3">${TR.map((t,i)=>{const ps=t.cs.map(id=>prog(cs(id))),avg=Math.round(ps.reduce((a,b)=>a+b,0)/3);return `<div class="card cb"><h3>${t.t}</h3><p class="m">${t.d}</p><ol style="padding-left:18px;font-size:14px">${t.cs.map(id=>`<li><a href="#" data-a="curso" data-v="${id}">${cs(id).t}</a> <span class="m">${prog(cs(id))}%</span></li>`).join('')}</ol>${bar(avg)}<p class="m">${avg}% da trilha</p><button class="btn ${S.tr.has(i)?'g':''}" data-a="trail" data-v="${i}">${S.tr.has(i)?'Seguindo ✓':'Seguir trilha'}</button></div>`}).join('')}</div>`,
+workshops:()=>`<h1>Workshops ao vivo</h1><p class="m">Incluídos nos planos Pro e Premium, com gravação disponível depois.</p><div class="g3">${WS.map(w=>`<div class="card cb"><span class="tag">${w.d}</span><h3 style="margin-top:10px">${w.t}</h3><p class="m">com ${w.h}, ${w.v-(S.ws.has(w.id)?1:0)} vagas restantes</p><button class="btn ${S.ws.has(w.id)?'g':''}" data-a="ws" data-v="${w.id}">${S.ws.has(w.id)?'Inscrição confirmada ✓':'Garantir minha vaga'}</button></div>`).join('')}</div>`,
+eventos:()=>`<h1>Eventos e oportunidades</h1><div class="tabs" style="max-width:360px"><button class="${S.et=='e'?'on':''}" data-a="et" data-v="e">Eventos</button><button class="${S.et=='j'?'on':''}" data-a="et" data-v="j">Vagas</button></div><div class="g3">${S.et=='e'?EV.map(e=>`<div class="card cb"><span class="tag">${e.d}</span><h3 style="margin-top:10px">${e.t}</h3><p class="m">${e.l}</p><button class="btn ${S.ev.has(e.id)?'g':''}" data-a="ev" data-v="${e.id}">${S.ev.has(e.id)?'Presença marcada ✓':'Tenho interesse'}</button></div>`).join(''):JOBS.map(j=>`<div class="card cb"><span class="tag">${j.k}</span><h3 style="margin-top:10px">${j.t}</h3><p class="m">${j.c}, ${j.l}</p><button class="btn ${S.jb.has(j.id)?'g':''}" data-a="jb" data-v="${j.id}">${S.jb.has(j.id)?'Candidatura enviada ✓':'Candidatar-me'}</button><p class="m">Exclusivo do plano Premium.</p></div>`).join('')}</div>`,
+conta:()=>{if(!S.user)return empty('Entre para acessar sua área','Veja seu plano, seus cursos e seu progresso.','Entrar','login');const mine=COURSES.filter(c=>S.owned.has(c.id)||(can(c)&&prog(c)>0));return `<h1>Olá, ${E(S.user.n)}</h1><div class="two"><div><h2>Meus cursos</h2>${mine.length?mine.map(c=>`<div class="card cb" style="margin-bottom:12px"><b>${E(c.t)}</b>${bar(prog(c))}<span class="m">${prog(c)}% concluído</span> <button class="btn g" data-a="curso" data-v="${c.id}">Abrir</button></div>`).join(''):'<p class="m">Você ainda não começou nenhum curso.</p><button class="btn" data-a="go" data-v="cursos">Explorar cursos</button>'}<p class="m">${S.done.size} aulas concluídas no total.</p></div><aside class="card cb"><h3>Seu plano</h3><p class="big">${S.plan?PN[S.plan]:'Sem assinatura'}</p>${PLANS.filter(p=>p.id!=S.plan).map(p=>`<button class="btn g" data-a="sub" data-v="${p.id}">${S.plan>p.id?'Mudar':'Assinar'} ${PN[p.id]}</button>`).join('')}${S.plan?'<button class="btn g" data-a="cancel">Cancelar assinatura</button>':''}<h3 style="margin-top:18px">Perfil</h3><input id="pn" value="${E(S.user.n)}" aria-label="Nome"><button class="btn" data-a="savep">Salvar</button><button class="btn g" data-a="logout">Sair</button></aside></div>`},
+admin:()=>{const us=S.user?U:U.filter(u=>!u.me),pay=us.filter(u=>u.p).length;return `<h1>Painel administrativo</h1><div class="row" style="gap:14px;margin-bottom:18px"><div class="card cb stat"><p class="m">Assinantes ativos</p><p class="big">${1200+pay}</p></div><div class="card cb stat"><p class="m">Receita mensal (simulada)</p><p class="big">R$ ${(61300+us.reduce((s,u)=>s+[0,29,59,99][u.p],0)).toLocaleString('pt-BR')}</p></div><div class="card cb stat"><p class="m">Cursos publicados</p><p class="big">${COURSES.length}</p></div></div><div class="tabs" style="max-width:360px"><button class="${S.at=='c'?'on':''}" data-a="at" data-v="c">Cursos</button><button class="${S.at=='u'?'on':''}" data-a="at" data-v="u">Usuários</button></div>${S.at=='c'?`<div class="card cb" style="overflow:auto"><table><tr><th>Curso</th><th>Área</th><th>Plano</th><th></th></tr>${COURSES.map(c=>`<tr><td>${E(c.t)}</td><td>${c.a}</td><td>${PN[c.l]}</td><td><button class="btn g" data-a="del" data-v="${c.id}">Excluir</button></td></tr>`).join('')}</table></div><div class="card cb" style="margin-top:14px"><h3>Novo curso</h3><input id="nt" placeholder="Título do curso"><div class="r2"><select id="na">${AREAS.map(a=>`<option>${a}</option>`).join('')}</select><select id="nl">${[1,2,3].map(i=>`<option value="${i}">Plano ${PN[i]}</option>`).join('')}</select></div><button class="btn" data-a="add">Publicar curso</button></div>`:`<div class="card cb" style="overflow:auto"><table><tr><th>Nome</th><th>E-mail</th><th>Plano</th></tr>${us.map((u,i)=>`<tr><td>${E(u.n)}</td><td>${E(u.e)}</td><td><select style="margin:0" data-a="upl" data-v="${U.indexOf(u)}">${[0,1,2,3].map(p=>`<option value="${p}" ${u.p==p?'selected':''}>${p?PN[p]:'Sem plano'}</option>`).join('')}</select></td></tr>`).join('')}</table></div>`}`}
+};
+function render(){$('#app').innerHTML=V[S.view]();$('#nav').innerHTML=[['home','Início'],['cursos','Cursos'],['trilhas','Trilhas'],['workshops','Workshops'],['eventos','Eventos e vagas'],['admin','Painel admin']].map(([k,n])=>`<button class="${S.view==k||(k=='cursos'&&(S.view=='curso'||S.view=='player'))?'on':''}" data-a="go" data-v="${k}">${n}</button>`).join('');$('#usr').innerHTML=S.user?`<button class="av" data-a="go" data-v="conta" aria-label="Minha conta">${E(S.user.n[0].toUpperCase())}</button>`:'<button class="btn" style="margin:0" data-a="login">Entrar</button>'}
+function go(v){clearInterval(T);S.on=false;S.view=v;render();scrollTo(0,0)}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2400)}
+function modal(h){$('#mo').innerHTML=`<div class="mdl" role="dialog" aria-modal="true"><button class="x" data-a="close" aria-label="Fechar">×</button>${h}</div>`;$('#mo').classList.add('on')}
+const close=()=>$('#mo').classList.remove('on');
+function authH(){const up=S.am=='up';return `<h3>${up?'Criar conta':'Entrar'}</h3><div class="tabs"><button class="${up?'':'on'}" data-a="am" data-v="in">Entrar</button><button class="${up?'on':''}" data-a="am" data-v="up">Criar conta</button></div>${up?'<input id="an" placeholder="Seu nome">':''}<input id="ae" type="email" placeholder="E-mail"><input id="ap" type="password" placeholder="Senha"><button class="btn" style="width:100%" data-a="auth">${up?'Criar minha conta':'Entrar'}</button><button class="btn g" style="width:100%" data-a="demo">Entrar com conta demonstração</button>`}
+function need(fn){if(S.user)return fn();S.pend=fn;modal(authH())}
+function login(n,e){S.user={n,e};U.push({n,e,p:S.plan,me:1});close();render();toast('Bem-vinda! Conta conectada.');const f=S.pend;S.pend=null;f&&f()}
+function qr(){let s='';for(let y=0;y<21;y++)for(let x=0;x<21;x++)if(Math.random()<.5)s+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;return `<svg viewBox="0 0 21 21" width="130" fill="currentColor">${s}</svg>`}
+function payH(){const i=S.item;return `<h3>${i.rec?'Assinar':'Comprar'}</h3><p class="m">${E(i.n)}</p><p class="big">R$ ${i.p},00<small class="m">${i.rec?'/mês':''}</small></p><div class="tabs"><button class="${S.pm=='c'?'on':''}" data-a="pm" data-v="c">Cartão</button><button class="${S.pm=='p'?'on':''}" data-a="pm" data-v="p">Pix</button></div>${S.pm=='c'?`<input value="4242 4242 4242 4242" aria-label="Cartão"><div class="r2"><input value="12/30" aria-label="Validade"><input value="123" aria-label="CVV"></div><input value="${E(S.user.n)}" aria-label="Nome no cartão">`:`<div class="qr">${qr()}<p class="m">Pix copia e cola: 00020126…demo</p></div>`}<button class="btn" id="pay" style="width:100%" data-a="pay">Pagar R$ ${i.p},00</button><p class="m">Ambiente de demonstração: nenhuma cobrança real.</p>`}
+function checkout(i){need(()=>{S.item=i;S.pm='c';modal(payH())})}
+function upsell(n,c){modal(`<h3>Conteúdo do plano ${PN[n]}</h3><p class="m">Assine para liberar${c?' todo o curso':' este recurso'} agora mesmo.</p><button class="btn" data-a="sub" data-v="${n}">Assinar ${PN[n]} por R$ ${PLANS[n-1].p}/mês</button>${c?`<button class="btn g" data-a="buy" data-v="${c.id}">Comprar só este curso por R$ ${c.p}</button>`:''}<button class="btn g" data-a="close">Agora não</button>`)}
+function gate(l,fn){need(()=>S.plan>=l?fn():upsell(l))}
+function play(id,k){const c=cs(id);if(!canL(c,k))return upsell(c.l,c);S.cur=id;S.les=k;go('player')}
+function tp(){S.on=!S.on;$('#pb').textContent=S.on?'❚❚':'▶';$('#vid').classList.toggle('playing',S.on);clearInterval(T);if(S.on){S.pct=0;T=setInterval(()=>{const l=flat(cs(S.cur)).find(x=>x.k==S.les);S.pct+=100/60;if(S.pct>=100){clearInterval(T);S.on=false;S.done.add(l.k);toast('Aula concluída');render()}else{$('#pg').style.width=S.pct+'%';$('#tm').textContent=fmt(S.pct/100*l.min*60)+' / '+l.min+':00'}},200)}}
+const sync=()=>U.forEach(u=>u.me&&(u.p=S.plan));
+const A={
+go:v=>go(v),area:v=>{S.f=v;go('cursos')},plans:()=>{if(S.view!='home')go('home');$('#planos').scrollIntoView({behavior:'smooth'})},
+curso:v=>{S.cur=+v;go('curso')},play:v=>{const[c,k]=v.split('|');play(+c,k)},tp,
+done:()=>{S.done.add(S.les);toast('Aula concluída');clearInterval(T);S.on=false;render()},
+nav:v=>{const c=cs(S.cur),L=flat(c),n=L[L.findIndex(l=>l.k==S.les)+ +v];n&&play(c.id,n.k)},
+pdf:()=>toast('Download do PDF (simulado)'),login:()=>{S.pend=null;modal(authH())},close,
+am:v=>{S.am=v;modal(authH())},
+auth:()=>{const e=$('#ae').value.trim(),n=S.am=='up'&&$('#an').value.trim();if(!e.includes('@'))return toast('Digite um e-mail válido');login(n||e.split('@')[0],e)},
+demo:()=>login('Assinante demo','demo@vozaberta.com'),
+logout:()=>{S.user=null;S.plan=0;U=U.filter(u=>!u.me);go('home');toast('Você saiu da conta')},
+savep:()=>{S.user.n=$('#pn').value||S.user.n;U.forEach(u=>u.me&&(u.n=S.user.n));render();toast('Perfil salvo')},
+sub:v=>{close();checkout({k:'p',id:+v,n:'Plano '+PN[v],p:PLANS[v-1].p,rec:1})},
+buy:v=>{close();const c=cs(v);checkout({k:'c',id:c.id,n:c.t,p:c.p})},
+pm:v=>{S.pm=v;modal(payH())},
+pay:()=>{const b=$('#pay');b.disabled=true;b.textContent='Processando pagamento…';setTimeout(()=>{const i=S.item;if(i.k=='p'){S.plan=i.id;sync()}else S.owned.add(i.id);modal(`<h3>Pagamento aprovado</h3><p>${E(i.n)} liberado.${i.rec?' A renovação mensal é automática (simulada).':''}</p><button class="btn" data-a="okpay">${i.rec?'Explorar cursos':'Começar agora'}</button>`);render()},1100)},
+okpay:()=>{close();const i=S.item;if(i.k=='c'){S.cur=i.id;go('curso')}else go('cursos')},
+cancel:()=>{S.plan=0;sync();render();toast('Assinatura cancelada')},
+trail:v=>{S.tr.has(+v)?S.tr.delete(+v):S.tr.add(+v);render()},
+ws:v=>{const id=+v;if(S.ws.has(id)){S.ws.delete(id);render();return toast('Inscrição cancelada')}gate(2,()=>{S.ws.add(id);render();toast('Vaga garantida! Lembrete por e-mail (simulado)')})},
+et:v=>{S.et=v;render()},ev:v=>need(()=>{const id=+v;S.ev.has(id)?S.ev.delete(id):S.ev.add(id);render()}),
+jb:v=>gate(3,()=>{const id=+v;S.jb.has(id)?S.jb.delete(id):S.jb.add(id);render();toast('Candidatura atualizada')}),
+at:v=>{S.at=v;render()},del:v=>{COURSES=COURSES.filter(c=>c.id!=v);render();toast('Curso excluído')},
+add:()=>{const t=$('#nt').value.trim();if(!t)return toast('Informe o título do curso');COURSES.push({id:Date.now()%100000,t,a:$('#na').value,l:+$('#nl').value,h:'Equipe Voz Aberta',d:'4h',p:149,c:Math.floor(Math.random()*360)});render();toast('Curso publicado no catálogo')}
+};
+document.addEventListener('click',e=>{if(e.target.id=='mo')return close();const b=e.target.closest('[data-a]');if(!b||b.tagName=='SELECT')return;e.preventDefault();A[b.dataset.a]&&A[b.dataset.a](b.dataset.v)});
+document.addEventListener('change',e=>{if(e.target.dataset.a=='upl'){const u=U[+e.target.dataset.v];u.p=+e.target.value;if(u.me){S.plan=u.p}toast('Plano do usuário atualizado');render()}});
+document.addEventListener('input',e=>{if(e.target.id=='q'){S.q=e.target.value;$('#grid').innerHTML=grid()}});
+render();
+</script>
+</body>
+</html>
